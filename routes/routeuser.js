@@ -12,9 +12,11 @@ app.post("/register", async (req, res) => {
     const existingUser = await User.findOne({ phoneNumber });
 
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "Phone number already registered" });
+      return (
+        res
+          // .status(400)
+          .json({ message: "Phone number already registered" })
+      );
     }
 
     // Create a new user
