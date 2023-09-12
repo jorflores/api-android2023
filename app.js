@@ -13,11 +13,6 @@ dbConnect();
 app.use(express.json());
 app.use("/users", userRoutes);
 
-// Use the middleware for protected routes
-app.get("/protected", verifyToken, (req, res) => {
-  res.status(200).json({ message: "Access granted" });
-});
-
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

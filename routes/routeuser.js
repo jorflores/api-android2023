@@ -15,7 +15,7 @@ app.post("/register", async (req, res) => {
       return (
         res
           // .status(400)
-          .json({ message: "Phone number already registered" })
+          .json({ message: "El teléfono ya se encuentra registrado" })
       );
     }
 
@@ -23,10 +23,10 @@ app.post("/register", async (req, res) => {
     const newUser = new User({ phoneNumber, password });
     await newUser.save();
 
-    res.status(201).json({ message: "Registration successful" });
+    res.status(201).json({ message: "Registro exitoso" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Error" });
   }
 });
 
@@ -39,7 +39,7 @@ app.post("/login", async (req, res) => {
     const user = await User.findOne({ phoneNumber });
 
     if (!user || user.password !== password) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Credenciales incorrectas" });
     }
 
     // Generate and send a JWT token
@@ -54,8 +54,13 @@ app.post("/login", async (req, res) => {
     res.status(200).json({ token });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Error" });
   }
+});
+
+// Use the middleware for protected routes
+app.get("/protected", verifyToken, (req, res) => {
+  res.status(200).json({ message: "Acceso permitido" });
 });
 
 module.exports = app;
