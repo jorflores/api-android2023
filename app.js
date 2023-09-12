@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const verifyToken = require("./middleware/verify");
+
 const userRoutes = require("./routes/routeuser");
 require("dotenv").config();
 

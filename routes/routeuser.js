@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const jwt = require("jsonwebtoken");
 const User = require("../model/user");
+const verifyToken = require("../middleware/verify");
 
 // Registration Endpoint
 app.post("/register", async (req, res) => {
