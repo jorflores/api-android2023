@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
 const jwt = require("jsonwebtoken");
-const User = require("../model/user");
+const Org = require("../model/org");
 const verifyToken = require("../middleware/verify");
 
-// Registration Endpoint
+/*
 app.post("/register", async (req, res) => {
   try {
     const { phoneNumber, password } = req.body;
@@ -52,7 +52,7 @@ app.post("/login", async (req, res) => {
       }
     );
 
-    res.status(200).json({ token: token, isAdmin: user.isAdmin });
+    res.status(200).json({ token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error" });
@@ -62,6 +62,6 @@ app.post("/login", async (req, res) => {
 // Use the middleware for protected routes
 app.get("/protected", verifyToken, (req, res) => {
   res.status(200).json({ message: "Acceso permitido" });
-});
+});*/
 
 module.exports = app;
