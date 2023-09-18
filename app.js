@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const userRoutes = require("./routes/routeuser");
+const orgRoutes = require("./routes/routeorg");
 require("dotenv").config();
 
 const app = express();
@@ -12,6 +13,7 @@ dbConnect();
 
 app.use(express.json());
 app.use("/users", userRoutes);
+app.use("/orgs/", orgRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -4,25 +4,24 @@ const jwt = require("jsonwebtoken");
 const Org = require("../model/org");
 const verifyToken = require("../middleware/verify");
 
-/*
-app.post("/register", async (req, res) => {
+app.post("/add", verifyToken, async (req, res) => {
   try {
-    const { phoneNumber, password } = req.body;
+    const { email, name, description } = req.body;
 
-    // Check if the phone number is already registered
-    const existingUser = await User.findOne({ phoneNumber });
+    // Check if Org exists
+    //const existingOrg = await Org.findOne({ email });
 
-    if (existingUser) {
+    /* if (existingUser) {
       return (
         res
           // .status(400)
           .json({ message: "El teléfono ya se encuentra registrado" })
       );
-    }
+    }*/
 
     // Create a new user
-    const newUser = new User({ phoneNumber, password });
-    await newUser.save();
+    const newOrg = new Org({ email, name, description });
+    await newOrg.save();
 
     res.status(201).json({ message: "Registro exitoso" });
   } catch (error) {
@@ -30,38 +29,5 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ message: "Error" });
   }
 });
-
-// Login Endpoint
-app.post("/login", async (req, res) => {
-  try {
-    const { phoneNumber, password } = req.body;
-
-    // Check if the user exists
-    const user = await User.findOne({ phoneNumber });
-
-    if (!user || user.password !== password) {
-      return res.status(401).json({ message: "Credenciales incorrectas" });
-    }
-
-    // Generate and send a JWT token
-    const token = jwt.sign(
-      { phoneNumber: user.phoneNumber },
-      "your-secret-key",
-      {
-        expiresIn: "1h",
-      }
-    );
-
-    res.status(200).json({ token });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error" });
-  }
-});
-
-// Use the middleware for protected routes
-app.get("/protected", verifyToken, (req, res) => {
-  res.status(200).json({ message: "Acceso permitido" });
-});*/
 
 module.exports = app;
