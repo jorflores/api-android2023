@@ -3,25 +3,25 @@ const app = express();
 const jwt = require("jsonwebtoken");
 const User = require("../model/user");
 const verifyToken = require("../middleware/verify");
+const bcrypt = require("bcrypt");
 
 // Registration Endpoint
 app.post("/register", async (req, res) => {
   try {
     const { phoneNumber, password } = req.body;
 
-    // Check if the phone number is already registered
     const existingUser = await User.findOne({ phoneNumber });
 
     if (existingUser) {
-      return (
-        res
-          // .status(400)
-          .json({ message: "El teléfono ya se encuentra registrado" })
-      );
+      return res.json({ message: "El teléfono ya se encuentra registrado" });
     }
 
-    // Create a new user
-    const newUser = new User({ phoneNumber, password });
+    let hashed_password = bcrypt.hashSync(password, 10);
+
+    const newUser = new User({
+      phoneNumber: phoneNumber,
+      password: hashed_password,
+    });
     await newUser.save();
 
     res.status(201).json({ message: "Registro exitoso" });
@@ -31,19 +31,19 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// Login Endpoint
 app.post("/login", async (req, res) => {
   try {
     const { phoneNumber, password } = req.body;
 
-    // Check if the user exists
+    // Revisamos si el usuario existe.
     const user = await User.findOne({ phoneNumber });
 
-    if (!user || user.password !== password) {
+    // Revisamos si el usuario no existe y si la contraseña no es la misma
+    if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(401).json({ message: "Credenciales incorrectas" });
     }
 
-    // Generate and send a JWT token
+    // Generamos el token
     const token = jwt.sign(
       { phoneNumber: user.phoneNumber },
       "your-secret-key",
@@ -59,7 +59,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Use the middleware for protected routes
 app.get("/protected", verifyToken, (req, res) => {
   res.status(200).json({ message: "Acceso permitido" });
 });

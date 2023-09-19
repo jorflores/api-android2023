@@ -8,18 +8,6 @@ app.post("/add", verifyToken, async (req, res) => {
   try {
     const { email, name, description } = req.body;
 
-    // Check if Org exists
-    //const existingOrg = await Org.findOne({ email });
-
-    /* if (existingUser) {
-      return (
-        res
-          // .status(400)
-          .json({ message: "El teléfono ya se encuentra registrado" })
-      );
-    }*/
-
-    // Create a new user
     const newOrg = new Org({ email, name, description });
     await newOrg.save();
 
