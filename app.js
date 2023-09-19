@@ -16,7 +16,7 @@ app.use("/users", userRoutes);
 app.use("/orgs/", orgRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Servidor ejecutandose en el puerto: ${PORT}`);
 });
 
 function dbConnect() {
