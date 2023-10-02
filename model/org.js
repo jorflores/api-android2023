@@ -7,4 +7,4 @@ const OrgSchema = Schema({
   description: { type: String, default: "" },
 });
 
-module.exports = mongoose.model("orgs", OrgSchema);
+module.exports = mongoose.model("Organization", OrgSchema);
