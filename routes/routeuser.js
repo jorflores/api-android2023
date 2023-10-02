@@ -132,4 +132,28 @@ app.delete(
   }
 );
 
+app.get("/getUserFavoriteOrganizations", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    const user = await User.findById(userId);
+
+    console.log(user);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Retrieve the organization records for the user's favorite organization IDs
+    const favoriteOrganizations = await Organization.find({
+      _id: { $in: user.favoriteOrganizations },
+    });
+
+    return res.status(200).json(favoriteOrganizations);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = app;
